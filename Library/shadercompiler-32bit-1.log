@@ -1,7 +1,3 @@
 Base path: C:/Program Files/Unity/Editor/Data
-Pipe name: \\.\pipe\UnityShaderCompiler-32bit-1-6940
+Pipe name: \\.\pipe\UnityShaderCompiler-32bit-1-8488
 Cmd: getPlatforms
-Unhandled exception: Readfile from pipe failed. GLE=Toru on lõpetatud.
-
-
-Quitting shader compiler process

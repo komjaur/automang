@@ -11,7 +11,7 @@ var trafficspeed:int=40;
 private var canspawn:float=3;
 private var maxcarsonfield=6;
 
-//ui
+//ui pole valmis
 var scoretext:UI.Text;
 
 
@@ -95,7 +95,7 @@ function releasecar()// kasutame autosid uuesti mitte ei tee uusi koguaeg
 				yield WaitForSeconds(1);
 				chosenspawn.SetActive (true);
 				// spawnready=true;
-				break; //this "quits" the for loop, you don't need to check the rest of the items if you already found one that's not active
+				break;
 			}
 		}
 	}
