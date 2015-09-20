@@ -9,7 +9,7 @@ var spawnpoints:Transform[];
 var trafficspeed:int=40;
 
 private var canspawn:float=3;
-private var maxcarsonfield=6;
+private var maxcarsonfield=15;
 
 //ui pole valmis
 var scoretext:UI.Text;
