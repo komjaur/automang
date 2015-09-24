@@ -6,19 +6,21 @@ static var score=0;
 
 var cars:GameObject[];
 var spawnpoints:Transform[];
-var trafficspeed:int=40;
+var trafficspeed:float=40;
 
-private var canspawn:float=3;
-private var maxcarsonfield=15;
+private var clock=0;
+private var maxcarsonfield=3;
+private var massspawning=false;
 
 //ui pole valmis
 var scoretext:UI.Text;
-
+var images:GameObject[];
 
 
 
 //private var spawnready=true;
 function Awake () {
+	
 	Application.targetFrameRate = 30; //30fps lock ning hojab akut kokku 
 	var index=0;
 
@@ -40,17 +42,31 @@ function Awake () {
 	}
 	LaneSpeedChange();
 	
+	manualspawning();
+	
 }
 function Start()
 {
 	InvokeRepeating("LaneSpeedChange", 5, 5);
+	InvokeRepeating("ticktock", 1, 1);
+}
+
+function ticktock()
+{
+	if (gameover==false)
+	{
+		clock++;
+		trafficspeed=20+(clock/2);
+		//Debug.Log(trafficspeed);
+	}
+	
 }
 function LaneSpeedChange()
 {
-
+	//Debug.Log(gameover);
 	for (var i = 0; i < spawnpoints.Length; i++) 
 	{
-		var randomspeed=Random.Range(trafficspeed-20,trafficspeed+30);
+		var randomspeed=Random.Range(trafficspeed-10,trafficspeed+20);
     	spawnpoints[i].name=randomspeed+"";
 	}
 }
@@ -87,7 +103,7 @@ function releasecar()// kasutame autosid uuesti mitte ei tee uusi koguaeg
 				carslist[i].gameObject.SetActive(true);
 
 				carslist[i].transform.position=chosenspawn.transform.position;
-				var carspeed=parseInt(chosenspawn.name);
+				var carspeed=parseFloat(chosenspawn.name);
 				carslist[i].transform.GetComponent(carai).newstart(carspeed);
 				carslist[i].transform.rotation=chosenspawn.transform.rotation;
 				chosenspawn.SetActive (false);
@@ -105,27 +121,46 @@ function releasecar()// kasutame autosid uuesti mitte ei tee uusi koguaeg
 	
 	
 }
+function endgame()
+{
+	gameover=true;
+	images[0].gameObject.SetActive(true);//teeme restart buttoni nähtavaks
+}
 function newgame()//resetime mängu
 {
-	 score=0;
 	 for(var i = 0; i < carslist.Length; i++)
 	 {
 	 	carslist[i].gameObject.SetActive(false);
 	 	
 	 }
-	 carsonfield=0;
+	 images[0].gameObject.SetActive(false);//teeme restart buttoni nähtamatuks
 	 gameover=false;
+	 score=0;
+	 clock=0;
+	 carsonfield=0;
+	 manualspawning();
+}
+function manualspawning()
+{
+	massspawning=false;
+	for (var x=0;x<4;x++)
+	{
+		releasecar();
+		//Debug.Log(x);
+		yield WaitForSeconds(0.5);
+	}
+	massspawning=true;
 }
 function Update () {
 	scoretext.text=score+"";
 	
-	if (carsonfield<=maxcarsonfield)
+	if (carsonfield<=maxcarsonfield && massspawning==true)
 	{
 		releasecar();
 		
 		//spawnready=false;
 	}
-	
+
 	if ( Input.GetMouseButtonDown(0))//tuvastame kas vajutasime autole peale
 	{
 		if (gameover==false)
@@ -139,13 +174,14 @@ function Update () {
 				if (hit.transform.tag=="car")
 				{
 					hit.transform.GetComponent(carai).speedup();
+					
 					//Debug.Log(hit.transform.parent);
 				}
 			}
-		}else
+		}/*else
 		{
 			newgame();
-		}
+		}*/
 	}
 	if (Input.GetKeyDown(KeyCode.Escape)) //sulgeme mängu
 	{

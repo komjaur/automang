@@ -1,18 +1,27 @@
 ﻿#pragma strict
-var speed=10;
-var dead:boolean=false;
-var v3force:Vector3;
-var startpoint:Vector3;
-//var kere :Transform;
 
-var dist=0;
+var skins:Material[];
+var parsystem:ParticleSystem;
+
+private var dist=0;
+private var speed=10;
+private var dead:boolean=false;
+private var v3force:Vector3;
+private var startpoint:Vector3;
+private var controllsystem:controll;
+private var kere:Transform;
+
+
 function Start()
 {
+	controllsystem=GameObject.Find("Main Camera").GetComponent(controll);
+	kere=transform.Find("kere");
+	parsystem=transform.Find("particlesystem").GetComponent.<ParticleSystem>();
 	InvokeRepeating("SlowUpdate",1,1);
 	//kere=transform.Find("kere").transform;
 	gameObject.SetActive (false);
 }
-function newstart (carspeed:int) {
+function newstart (carspeed:float) {
 	startpoint = transform.position;
 	dead=false;
 	speed = carspeed;
@@ -20,13 +29,14 @@ function newstart (carspeed:int) {
 	GetComponent.<Rigidbody>().velocity = new Vector3(0f,0f,0f); 
     GetComponent.<Rigidbody>().angularVelocity = new Vector3(0f,0f,0f);
 	GetComponent.<Rigidbody>().mass = speed;
+	kere.GetComponent.<Renderer>().material = skins[Random.Range(0,skins.length)];
 	//renderer.material.color = Color(Random.Range(0.0,1.0),Random.Range(0.0,1.0),Random.Range(0.0,1.0));
 }
 function speedup()
 {
 	
 	speed=100;
-
+	parsystem.Play();
 }
 
 function SlowUpdate()
@@ -60,7 +70,11 @@ function OnCollisionEnter(other: Collision) {
 	{
 		dead=true;
 		GetComponent.<Rigidbody>().freezeRotation = false;
-		controll.gameover=true;
+		if (controllsystem.gameover==false)
+		{
+			controllsystem.endgame();
+		}
+
 		
 	}
 	/*if (other.gameObject.name=="endcollider")
