@@ -1,0 +1,32 @@
+-----------Mängu ülevaade
+
+---------Mängu kontseptsioon
+
+	 Mängus on nelja realine ristmik kus sõidavad autod ja sinu ülesandeks on mitte autosid üksteisele kokku lasta.Vajutades autodele peale lähevad nad kiiremini ja väldivad kokkupõrget.
+
+---------Zanr
+
+	 Mäng žanr on arkaad.
+
+---------Sihtgrupp
+
+	 Peamine mängu sihtgrupp on 8-15 aastased eestlased kuna nendele on kõige lihtsam toodet maha müüa.
+	 Ja eestlased kuna raha taga väga projektil pole ja enamus reklaamindus tuleb läbi sotsiaalmeedia.
+
+---------Mängu voolu graafik
+
+ 
+
+---------Välimus ja stiils
+
+	 Mäng on low poly stiilis ehk kõik mudelid on väga väheste poligonidega kogustega.
+	 Värvid on väga värvikad kuna sihtgrupp on väiksemad inimesed ning texturid on väga suurte pikselitega sest seda on lihtsam teha.
+
+  
+  
+
+----------Gameplay ja mängu mehaanika
+---------Gameplay
+
+--------Missioonid ja väljakutsed
+	Pole hetkel plaanis aga võivad tulla
