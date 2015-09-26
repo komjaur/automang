@@ -26,6 +26,7 @@
   
 
 ----------Gameplay ja mängu mehaanika
+
 ---------Gameplay
 
 --------Missioonid ja väljakutsed

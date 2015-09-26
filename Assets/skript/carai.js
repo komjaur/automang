@@ -1,6 +1,6 @@
 ﻿#pragma strict
 
-var skins:Material[];
+var skinnidekogus=0;
 var parsystem:ParticleSystem;
 
 private var dist=0;
@@ -29,7 +29,10 @@ function newstart (carspeed:float) {
 	GetComponent.<Rigidbody>().velocity = new Vector3(0f,0f,0f); 
     GetComponent.<Rigidbody>().angularVelocity = new Vector3(0f,0f,0f);
 	GetComponent.<Rigidbody>().mass = speed;
-	kere.GetComponent.<Renderer>().material = skins[Random.Range(0,skins.length)];
+	//kere.GetComponent.<Renderer>().material = skins[Random.Range(0,skins.length)];
+	var randomskin:float=(1f/skinnidekogus)*Random.Range(0,skinnidekogus);
+	kere.GetComponent.<Renderer>().material.SetTextureOffset("_MainTex", Vector2(randomskin,0));
+	Debug.Log(randomskin);
 	//renderer.material.color = Color(Random.Range(0.0,1.0),Random.Range(0.0,1.0),Random.Range(0.0,1.0));
 }
 function speedup()
