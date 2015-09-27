@@ -3,6 +3,7 @@
 var skinnidekogus=0;
 var parsystem:ParticleSystem;
 
+
 private var dist=0;
 private var speed=10;
 private var dead:boolean=false;
@@ -25,6 +26,7 @@ function newstart (carspeed:float) {
 	startpoint = transform.position;
 	dead=false;
 	speed = carspeed;
+
 	transform.rotation = Quaternion.Euler(new Vector3(0f,0f,0f));
 	GetComponent.<Rigidbody>().velocity = new Vector3(0f,0f,0f); 
     GetComponent.<Rigidbody>().angularVelocity = new Vector3(0f,0f,0f);
@@ -32,28 +34,58 @@ function newstart (carspeed:float) {
 	//kere.GetComponent.<Renderer>().material = skins[Random.Range(0,skins.length)];
 	var randomskin:float=(1f/skinnidekogus)*Random.Range(0,skinnidekogus);
 	kere.GetComponent.<Renderer>().material.SetTextureOffset("_MainTex", Vector2(randomskin,0));
-	Debug.Log(randomskin);
+	
+	//Debug.Log(randomskin);
 	//renderer.material.color = Color(Random.Range(0.0,1.0),Random.Range(0.0,1.0),Random.Range(0.0,1.0));
 }
 function speedup()
 {
 	
 	speed=100;
+
 	parsystem.Play();
 }
 
 function SlowUpdate()
 {
-	dist = Vector3.Distance(startpoint, transform.position);
-	if (dist>80)
+	if (dead==false)
 	{
-		controll.carsonfield--;
-		if (controll.gameover==false)
+		dist = Vector3.Distance(startpoint, transform.position);
+		if (dist>80)
 		{
-			controll.score++;
+			
+			if (controll.gameover==false)
+			{
+				controll.score++;
+			}
+			controll.carsonfield--;
+			dead=true;
+			gameObject.SetActive(false);
 		}
-		gameObject.SetActive(false);
 	}
+}
+function Update()
+{
+	if (dead==false)
+	{
+		var hit : RaycastHit;
+		if (Physics.Raycast (transform.position,transform.forward , hit,2))
+		{
+			if (hit.transform.tag=="car")
+			{
+
+				var othercarspeed=hit.transform.GetComponent(carai).speed;
+				if (othercarspeed<speed)
+				{
+					speed=othercarspeed;
+					//oldspeed=othercarspeed;
+				}
+
+			}
+			Debug.Log(hit.transform);
+		}
+	}
+	
 }
 function FixedUpdate () {
 	
