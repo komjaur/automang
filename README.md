@@ -1,0 +1,4 @@
+# automang
+anroid
+
+gchfgh
