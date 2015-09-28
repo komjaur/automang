@@ -11,7 +11,7 @@ private var v3force:Vector3;
 private var startpoint:Vector3;
 private var controllsystem:controll;
 private var kere:Transform;
-
+//private var issloweddown:boolean=false;
 
 function Start()
 {
@@ -22,7 +22,8 @@ function Start()
 	//kere=transform.Find("kere").transform;
 	gameObject.SetActive (false);
 }
-function newstart (carspeed:float) {
+function newstart (carspeed:float,carlane:String) {
+	transform.name="car from "+carlane;
 	startpoint = transform.position;
 	dead=false;
 	speed = carspeed;
@@ -71,18 +72,24 @@ function Update()
 		var hit : RaycastHit;
 		if (Physics.Raycast (transform.position,transform.forward , hit,2))
 		{
-			if (hit.transform.tag=="car")
+			if (hit.transform.name==transform.name)
 			{
-
+				
 				var othercarspeed=hit.transform.GetComponent(carai).speed;
 				if (othercarspeed<speed)
 				{
 					speed=othercarspeed;
-					//oldspeed=othercarspeed;
+					
+					
+					/*Debug(näitab collision pointe autode vahel)
+					var cube : GameObject  = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					cube.transform.position =hit.point;
+					cube.GetComponent.<Collider>().enabled=false;
+					*/
 				}
 
 			}
-			Debug.Log(hit.transform);
+			//Debug.Log(hit.transform);
 		}
 	}
 	

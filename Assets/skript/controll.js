@@ -3,6 +3,7 @@ static var gameover=false;
 static var carslist:Transform[];
 static var carsonfield=0;
 static var score=0;
+static var gamestage=0;
 
 var cars:GameObject[];
 var spawnpoints:Transform[];
@@ -18,9 +19,9 @@ var interfaceHolders:GameObject[];
 
 //private var spawnready=true;
 function Awake () {// laeme asjad sisse
-	Application.targetFrameRate = 30; //30fps lock ning hojab akut kokku 
+	Application.targetFrameRate = 45; //45fps lock ning hojab akut kokku 
 	var index=0;
-	carslist = new Transform[10];
+	carslist = new Transform[20];
 	for(var i=0;i<carslist.Length;i++)//genereerime objektid ainult ühe korra sest Instantiate ja destroy on suht mahukad funktsioonid
 	{
 		var car = Instantiate(cars[index],Vector3(0,0,0),Quaternion.Euler(0, 0, 0));
@@ -42,7 +43,9 @@ function interfacefunctions(whereto:int)
 	{
 		interfaceHolders[0].gameObject.SetActive(false);//startmenu läheb nähtamatuks
 		interfaceHolders[1].gameObject.SetActive(true);//ingame läheb nähtavaks
-		newgame();
+
+		GetComponent(cameramovement).goback();
+		
 	}
 }
 
@@ -63,7 +66,7 @@ function LaneSpeedChange()
 	for (var i = 0; i < spawnpoints.Length; i++) 
 	{
 		var randomspeed=Random.Range(trafficspeed-10,trafficspeed+20);
-    	spawnpoints[i].name=randomspeed+"";
+    	spawnpoints[i].name="lane"+i+":"+randomspeed;
 	}
 }
 
@@ -96,10 +99,11 @@ function releasecar()// kasutame autosid uuesti mitte ei tee uusi koguaeg
 
 				carslist[i].gameObject.SetActive(true);
 				carsonfield++;
-				Debug.Log(carsonfield+"SHOOT");
+				//.Log(carsonfield+"SHOOT");
 				carslist[i].transform.position=chosenspawn.transform.position;
-				var carspeed=parseFloat(chosenspawn.name);
-				carslist[i].transform.GetComponent(carai).newstart(carspeed);
+				var cardata=chosenspawn.name.Split(':'[0]);
+
+				carslist[i].transform.GetComponent(carai).newstart(parseFloat(cardata[1]),cardata[0]);
 				carslist[i].transform.rotation=chosenspawn.transform.rotation;
 				chosenspawn.SetActive (false);
 				
@@ -134,6 +138,7 @@ function newgame()//resetime mängu
 	 clock=0;
 	 carsonfield=0;
 	 manualspawning();
+	 LaneSpeedChange();
 }
 function manualspawning()
 {

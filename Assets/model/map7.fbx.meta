@@ -1,18 +1,16 @@
 fileFormatVersion: 2
-guid: ece7a704be0d4cb4f8899186173cedb9
-timeCreated: 1442786795
+guid: 01ec50bf0694ef04cbecac7e213ad637
+timeCreated: 1443410615
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
-    100000: Camera
-    100002: Circle.002
-    100004: //RootNode
-    100006: Sun
-    400000: Camera
-    400002: Circle.002
-    400004: //RootNode
-    400006: Sun
+    100000: Circle.002
+    100002: //RootNode
+    100004: Sun
+    400000: Circle.002
+    400002: //RootNode
+    400004: Sun
     2300000: Circle.002
     3300000: Circle.002
     4300000: Circle.002
@@ -44,7 +42,7 @@ ModelImporter:
     addColliders: 0
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
