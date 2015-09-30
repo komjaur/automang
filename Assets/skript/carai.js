@@ -1,10 +1,9 @@
 ﻿#pragma strict
 
 var skinnidekogus=0;
-var parsystem:ParticleSystem;
+var parsystem:ParticleSystem[];
 
-
-private var dist=0;
+private var gotpoint=false;
 private var speed=10;
 private var dead:boolean=false;
 private var v3force:Vector3;
@@ -15,10 +14,12 @@ private var kere:Transform;
 
 function Start()
 {
-	controllsystem=GameObject.Find("Main Camera").GetComponent(controll);
-	kere=transform.Find("kere");
-	parsystem=transform.Find("particlesystem").GetComponent.<ParticleSystem>();
-	InvokeRepeating("SlowUpdate",1,1);
+    controllsystem=GameObject.Find("Main Camera").GetComponent(controll);
+    kere=transform.Find("kere");
+    parsystem=new ParticleSystem[2];
+    parsystem[0]=transform.Find("flameparticle").GetComponent.<ParticleSystem>();
+    parsystem[1]=transform.Find("dollarparticle").GetComponent.<ParticleSystem>();
+	//InvokeRepeating("SlowUpdate",1,1);
 	//kere=transform.Find("kere").transform;
 	gameObject.SetActive (false);
 }
@@ -26,6 +27,7 @@ function newstart (carspeed:float,carlane:String) {
 	transform.name="car from "+carlane;
 	startpoint = transform.position;
 	dead=false;
+	gotpoint=false;
 	speed = carspeed;
 
 	transform.rotation = Quaternion.Euler(new Vector3(0f,0f,0f));
@@ -44,10 +46,10 @@ function speedup()
 	
 	speed=100;
 
-	parsystem.Play();
+	parsystem[0].Play();
 }
 
-function SlowUpdate()
+/*function SlowUpdate()
 {
 	if (dead==false)
 	{
@@ -64,7 +66,7 @@ function SlowUpdate()
 			gameObject.SetActive(false);
 		}
 	}
-}
+}*/
 function Update()
 {
 	if (dead==false)
@@ -74,11 +76,13 @@ function Update()
 		{
 			if (hit.transform.name==transform.name)
 			{
-				
-				var othercarspeed=hit.transform.GetComponent(carai).speed;
-				if (othercarspeed<speed)
+			    var othercar=hit.transform.GetComponent(carai);
+
+				if (othercar.speed<speed && speed!=100)
 				{
-					speed=othercarspeed;
+				    
+				    speed=othercar.speed;
+				  
 					
 					
 					/*Debug(näitab collision pointe autode vahel)
@@ -86,6 +90,9 @@ function Update()
 					cube.transform.position =hit.point;
 					cube.GetComponent.<Collider>().enabled=false;
 					*/
+				}else if (speed==100)
+				{
+				    othercar.speedup();
 				}
 
 			}
@@ -124,4 +131,23 @@ function OnCollisionEnter(other: Collision) {
 		controll.carsonfield--;
 		gameObject.active=false;
 	}*/
+}
+function OnTriggerEnter (other : Collider) {
+    if (other.gameObject.tag=="addpointcollider" && gotpoint==false)
+    {
+        Debug.Log("1+");
+        parsystem[1].Emit(1);
+        if (controll.gameover==false)
+        {
+            controll.score++;
+        }
+        gotpoint=true;
+    }
+    if (other.gameObject.tag=="endcollider")
+    {
+
+        controll.carsonfield--;
+        dead=true;
+        gameObject.SetActive(false);
+    }        
 }

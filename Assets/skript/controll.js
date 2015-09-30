@@ -21,7 +21,7 @@ var interfaceHolders:GameObject[];
 function Awake () {// laeme asjad sisse
 	Application.targetFrameRate = 45; //45fps lock ning hojab akut kokku 
 	var index=0;
-	carslist = new Transform[20];
+	carslist = new Transform[50];
 	for(var i=0;i<carslist.Length;i++)//genereerime objektid ainult ühe korra sest Instantiate ja destroy on suht mahukad funktsioonid
 	{
 		var car = Instantiate(cars[index],Vector3(0,0,0),Quaternion.Euler(0, 0, 0));
@@ -43,19 +43,17 @@ function interfacefunctions(whereto:int)
 	{
 		interfaceHolders[0].gameObject.SetActive(false);//startmenu läheb nähtamatuks
 		interfaceHolders[1].gameObject.SetActive(true);//ingame läheb nähtavaks
-
 		GetComponent(cameramovement).goback();
-		
 	}
 }
 
-function ticktock()
+function ticktock()//lisab aega ja kiirendab mängu protsessi
 {
 	if (gameover==false)
 	{
 		clock++;
 		trafficspeed=20+(clock/2);
-		maxcarsonfield=5+(clock/4);
+		maxcarsonfield=20+(clock/4);
 		//Debug.Log(trafficspeed);
 	}
 	

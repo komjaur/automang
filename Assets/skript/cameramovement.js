@@ -40,7 +40,7 @@ function FixedUpdate () {
 		transform.RotateAround (Vector3.zero, Vector3.up, speed * Time.deltaTime);
 
 		var fracJourney = ((Time.time - startTime) * 5) / journeyLength;
-		if (Vector3.Distance(transform.position,startingpoint) > 2 && needtogoback==true)
+		if (Vector3.Distance(transform.position,startingpoint) > 0.1 && needtogoback==true)
 		{
 			//Debug.Log(Vector3.Distance(transform.position,startingpoint));
 			//transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles,startingpoint, Time.deltaTime);
