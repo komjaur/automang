@@ -35,7 +35,7 @@ function goback()
 	}
 }*/
 function FixedUpdate () {
-	if (controll.gamestage==0)
+	if (gameplay.gamestage==0)
 	{
 		transform.RotateAround (Vector3.zero, Vector3.up, speed * Time.deltaTime);
 
@@ -49,8 +49,8 @@ function FixedUpdate () {
 		}else if (needtogoback==true)
 		{
 			needtogoback=false;
-			controll.gamestage=1;
-			GetComponent(controll).newgame();
+			gameplay.gamestage=1;
+			GetComponent(gameplay).newgame();
 		}
 		transform.LookAt(Vector3.zero);
 	}

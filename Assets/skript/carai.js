@@ -8,13 +8,13 @@ private var speed=10;
 private var dead:boolean=false;
 private var v3force:Vector3;
 private var startpoint:Vector3;
-private var controllsystem:controll;
+private var controllsystem:gameplay;
 private var kere:Transform;
 //private var issloweddown:boolean=false;
 
 function Start()
 {
-    controllsystem=GameObject.Find("Main Camera").GetComponent(controll);
+    controllsystem=GameObject.Find("Main Camera").GetComponent(gameplay);
     kere=transform.Find("kere");
     parsystem=new ParticleSystem[2];
     parsystem[0]=transform.Find("flameparticle").GetComponent.<ParticleSystem>();
@@ -137,16 +137,16 @@ function OnTriggerEnter (other : Collider) {
     {
         Debug.Log("1+");
         parsystem[1].Emit(1);
-        if (controll.gameover==false)
+        if (gameplay.gameover==false)
         {
-            controll.score++;
+            gameplay.score++;
         }
         gotpoint=true;
     }
     if (other.gameObject.tag=="endcollider")
     {
 
-        controll.carsonfield--;
+        gameplay.carsonfield--;
         dead=true;
         gameObject.SetActive(false);
     }        
