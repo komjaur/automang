@@ -44,34 +44,36 @@ function Awake () {// laeme asjad sisse
 			index=0;
 		}	
 	}
+	var welcomebackmessage:String;
 	//laeme andmed sisse kui nad on olemas
 	if (PlayerPrefs.HasKey("lives"))
 	{
-		
 		var timepassed:int=(System.DateTime.UtcNow - new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc)).TotalSeconds - PlayerPrefs.GetInt("leavedate");
-		var newlivesamount:int=timepassed/300;
-		newliveclock=timepassed-((newlivesamount*300));
-		var welcomebackmessage:String;
-		lives=PlayerPrefs.GetInt("lives")+newlivesamount;
+		lives=PlayerPrefs.GetInt("lives");
 		maxscore=PlayerPrefs.GetInt("maxscore");
-		if (lives>=30)
+		
+		if (timepassed>0)
 		{
-			lives=30;
-			welcomebackmessage="maxed lifes and your were away "+ConvertSecToDate(timepassed);
-
-		}else if (timepassed>300)
-		{
-			welcomebackmessage="Welcome back you were away "+ConvertSecToDate(timepassed)+" and earned "+newlivesamount+" lives";
+			var newlivesamount:int=timepassed/300;
+			newliveclock=timepassed-((newlivesamount*300));
+			lives+=newlivesamount;
 			
-		}
-		if (welcomebackmessage!=null)
+			if (lives>=maxlives)
+			{
+				lives=maxlives;
+				welcomebackmessage="maxed lifes and your were away "+ConvertSecToDate(timepassed);
+
+			}else if (timepassed>300)
+			{
+				welcomebackmessage="Welcome back you were away "+ConvertSecToDate(timepassed)+" and earned "+newlivesamount+" lives";
+				
+			}
+		}else//siis kui kasutaja muudab telefonis aega tagasi
 		{
-			texts[1].text=welcomebackmessage;
-			interfacefunctions(2);//näita welcomebackmessaged
-		}else
-		{
-			interfacefunctions(0);//otse startmenüüse
+			welcomebackmessage=null;
+			newliveclock=300;
 		}
+		
 
 		
 		
@@ -80,9 +82,16 @@ function Awake () {// laeme asjad sisse
 		//PlayerPrefs.GetInt("livestimeleft");
 		
 		
-		Debug.Log(timepassed+" / "+newlivesamount);
+		//Debug.Log(timepassed+" / "+newlivesamount);
 	}
-	
+	if (welcomebackmessage!=null)
+	{
+		texts[1].text=welcomebackmessage;
+		interfacefunctions(2);//näita welcomebackmessaged
+	}else
+	{
+		interfacefunctions(0);//otse startmenüüse
+	}
 
 	
 	LaneSpeedChange();
@@ -120,7 +129,7 @@ function ConvertSecToDate(secound:int)
 	}else if (secound>3600 && secound<86400)
 	{
 		hour=secound/3600;
-		min=((hour*3600)-secound)/60;
+		min=(secound-(hour*3600))/60;
 		if (hour<=1)
 		{
 			returnmessage+=hour+"Hour and ";
@@ -320,11 +329,12 @@ function Update () {
 			}
 		}
 	}
-	if ( Input.GetMouseButtonDown(1))
+	
+	if ( Input.GetMouseButtonDown(1))//debug lisab elusid
 	{
 		if (carsonfield<maxcarsonfield)
 		{
-			releasecar();
+			lives=20;
 
 		}
 	}
