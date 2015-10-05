@@ -76,3 +76,5 @@ InspectorExpandedItems.asset
 MonoManager.asset
 NetworkManager.asset
 ScriptMapper
+*.log
+Library/shadercompiler-64bit-1.log
