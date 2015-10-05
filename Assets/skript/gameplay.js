@@ -52,10 +52,12 @@ function Awake () {// laeme asjad sisse
 		lives=PlayerPrefs.GetInt("lives");
 		maxscore=PlayerPrefs.GetInt("maxscore");
 		
+		
 		if (timepassed>0)
 		{
 			var newlivesamount:int=timepassed/300;
-			newliveclock=timepassed-((newlivesamount*300));
+			newliveclock=(PlayerPrefs.GetInt("newliveclock")-timepassed)+(newlivesamount*300);
+			
 			lives+=newlivesamount;
 			
 			if (lives>=maxlives)
@@ -73,16 +75,10 @@ function Awake () {// laeme asjad sisse
 			welcomebackmessage=null;
 			newliveclock=300;
 		}
-		
 
-		
-		
-		
-		//Debug.Log(welcomebackmessage);
-		//PlayerPrefs.GetInt("livestimeleft");
-		
-		
-		//Debug.Log(timepassed+" / "+newlivesamount);
+	}else
+	{
+		welcomebackmessage=null;
 	}
 	if (welcomebackmessage!=null)
 	{
@@ -303,7 +299,8 @@ function manualspawning()
 	massspawning=true;
 }
 function Update () {
-	texts[0].text=score+"/"+maxscore;
+	texts[0].text=score+"";
+	//+"/"+maxscore
 	//Debug.Log(carsonfield);
 	if (carsonfield<maxcarsonfield && massspawning==true)
 	{
@@ -323,8 +320,29 @@ function Update () {
 				if (hit.transform.tag=="car")
 				{
 					hit.transform.GetComponent(carai).speedup();
-					
-					//Debug.Log(hit.transform.parent);
+					//Debug.Log("number one");
+				}else//teeb autodele clickamise lihtsamaks
+				{
+					 
+				     var gos = GameObject.FindGameObjectsWithTag("car"); 
+				     var closest : GameObject; 
+				     var distance = Mathf.Infinity; 
+				     var position = transform.position; 
+				     // Iterate through them and find the closest one
+				     for (var go : GameObject in gos)  { 
+				         var diff = (go.transform.position - hit.point);
+				         var curDistance = diff.sqrMagnitude; 
+				         if (curDistance < distance) { 
+				             
+				             closest=go;
+				             distance = curDistance; 
+				         } 
+				     } 
+				     if (distance<20)
+				     {
+				     	closest.transform.GetComponent(carai).speedup();
+				     	//Debug.Log("number two");
+				     }
 				}
 			}
 		}
@@ -338,6 +356,10 @@ function Update () {
 
 		}
 	}
+	if (Input.GetKeyDown (KeyCode.D))
+	{
+		PlayerPrefs.DeleteAll();
+	}
 	if (Input.GetKeyDown(KeyCode.Escape)) //sulgeme mängu
 	{
 		SaveData();
@@ -348,6 +370,9 @@ function SaveData()
 {
 	PlayerPrefs.SetInt("leavedate",(System.DateTime.UtcNow - new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc)).TotalSeconds);
 	PlayerPrefs.SetInt("lives",lives);
+	PlayerPrefs.SetInt("newliveclock",newliveclock);
 	PlayerPrefs.SetInt("maxscore",maxscore);
+	
+	
 }
 
