@@ -2,7 +2,7 @@
 
 var skinnidekogus=0;
 var parsystem:ParticleSystem[];
-
+var particlemeshes:Mesh[];
 private var gotpoint=false;
 private var speed=10;
 private var dead:boolean=false;
@@ -135,11 +135,15 @@ function OnCollisionEnter(other: Collision) {
 function OnTriggerEnter (other : Collider) {
     if (other.gameObject.tag=="addpointcollider" && gotpoint==false)
     {
-        Debug.Log("1+");
-        parsystem[1].Emit(1);
+        //Debug.Log("1+");
+        
         if (gameplay.gameover==false)
         {
+        	//parsystem[1].renderMode.mesh = particlemeshes[1];
             gameplay.score++;
+           // parsystem[1].ParticleSystemRenderMode.mesh[1];
+            parsystem[1].Emit(1);
+           
         }
         gotpoint=true;
     }
