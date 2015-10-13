@@ -8,6 +8,7 @@ static var carsonfield=0;
 static var score=0;
 static var gamestage=0;
 
+
 var maxscore=0;
 var maxlives=20;
 var lives=20;
@@ -20,11 +21,14 @@ var cars:GameObject[];
 var spawnpoints:Transform[];
 var trafficspeed:float=40;
 
+////Debug var
+var unlimitedlives:boolean=false;
+////
 private var insideclock=0;
 private var maxcarsonfield=5;
 private var massspawning=false;
 
-
+/////
 var interFace:GameObject[];
 var texts:UI.Text[];
 var interfaceHolders:GameObject[];
@@ -48,34 +52,39 @@ function Awake () {// laeme asjad sisse
 	//laeme andmed sisse kui nad on olemas
 	if (PlayerPrefs.HasKey("lives"))
 	{
-		var timepassed:int=(System.DateTime.UtcNow - new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc)).TotalSeconds - PlayerPrefs.GetInt("leavedate");
-		lives=PlayerPrefs.GetInt("lives");
+		unlimitedlives=PlayerPrefs.GetInt("unlimitedlives")==1?true:false;
 		maxscore=PlayerPrefs.GetInt("maxscore");
 		
-		
-		if (timepassed>0)
+		if (unlimitedlives==false)
 		{
-			var newlivesamount:int=timepassed/300;
-			newliveclock=(PlayerPrefs.GetInt("newliveclock")-timepassed)+(newlivesamount*300);
-			
-			lives+=newlivesamount;
-			
-			if (lives>=maxlives)
+			var timepassed:int=(System.DateTime.UtcNow - new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc)).TotalSeconds - PlayerPrefs.GetInt("leavedate");
+			lives=PlayerPrefs.GetInt("lives");
+			if (timepassed>0)
 			{
-				lives=maxlives;
-				welcomebackmessage="maxed lifes and your were away "+ConvertSecToDate(timepassed);
-
-			}else if (timepassed>300)
-			{
-				welcomebackmessage="Welcome back you were away "+ConvertSecToDate(timepassed)+" and earned "+newlivesamount+" lives";
+				var newlivesamount:int=timepassed/300;
+				newliveclock=(PlayerPrefs.GetInt("newliveclock")-timepassed)+(newlivesamount*300);
 				
-			}
-		}else//siis kui kasutaja muudab telefonis aega tagasi
-		{
-			welcomebackmessage=null;
-			newliveclock=300;
-		}
+				lives+=newlivesamount;
+				
+				if (lives>=maxlives)
+				{
+					lives=maxlives;
+					welcomebackmessage="maxed lifes and your were away "+ConvertSecToDate(timepassed);
 
+				}else if (timepassed>300)
+				{
+					welcomebackmessage="Welcome back you were away "+ConvertSecToDate(timepassed)+" and earned "+newlivesamount+" lives";
+					
+				}
+			}else//siis kui kasutaja muudab telefonis aega tagasi
+			{
+				welcomebackmessage=null;
+				newliveclock=300;
+			}
+		}else
+		{
+			welcomebackmessage="Welcome back our favorite player.";
+		}
 	}else
 	{
 		welcomebackmessage=null;
@@ -154,7 +163,7 @@ function interfacefunctions(whereto:int)
 			interfaceHolders[i].gameObject.SetActive(true);
 		}else
 		{
-			Debug.Log(interfaceHolders[whereto].gameObject);
+			//Debug.Log(interfaceHolders[whereto].gameObject);
 			interfaceHolders[i].gameObject.SetActive(false);
 		}
 		
@@ -165,6 +174,8 @@ function interfacefunctions(whereto:int)
 	}else if (whereto==1)
 	{
 		GetComponent(cameramovement).goback();
+		
+		
 	}else if (whereto==2)
 	{
 		
@@ -174,6 +185,7 @@ function interfacefunctions(whereto:int)
 
 function ticktock()//lisab aega ja kiirendab mängu protsessi
 {
+	Debug.Log(unlimitedlives);
 	if (gameover==false)
 	{
 		insideclock++;
@@ -181,19 +193,30 @@ function ticktock()//lisab aega ja kiirendab mängu protsessi
 		maxcarsonfield=5+(insideclock/6);
 		//Debug.Log(trafficspeed);
 	}
-	if (lives<maxlives)
+	if (unlimitedlives==false)
 	{
-		
-		
-		newliveclock--;
-		if (newliveclock<=0)
+		if (lives<maxlives)
 		{
-			lives++;
-			newliveclock=300;
+			
+			
+			newliveclock--;
+			if (newliveclock<=0)
+			{
+				lives++;
+				newliveclock=300;
+			}
+			texts[2].text=lives+"/"+maxlives;
+			texts[3].text=newliveclock+"";
+			
 		}
-		texts[2].text=lives+"/"+maxlives;
-		texts[3].text=newliveclock+"";
+	}else
+	{
+		texts[2].text="∞/∞";
+		texts[3].text="∞";
 	}
+	
+		
+	
 }
 function LaneSpeedChange()
 {
@@ -265,12 +288,17 @@ function endgame()
 	{
 		maxscore=score;
 	}
-	SaveData();
+	ChangeData(0);
+	yield WaitForSeconds(2);
+	if (gameover==true)
+	{
+		interfacefunctions(3);
+	}
 }
 function newgame()//resetime mängu
 {
 	
-	if (lives>0)
+	if (lives>0 || unlimitedlives==true)
 	{
 		for(var i = 0; i < carslist.Length; i++)
 		{
@@ -284,8 +312,9 @@ function newgame()//resetime mängu
 		manualspawning();
 		LaneSpeedChange();
 		lives--;
+		interfacefunctions(1);
 	}
-	SaveData();
+	ChangeData(0);
 }
 function manualspawning()
 {
@@ -347,32 +376,39 @@ function Update () {
 			}
 		}
 	}
-	
-	if ( Input.GetMouseButtonDown(1))//debug lisab elusid
-	{
-		if (carsonfield<maxcarsonfield)
-		{
-			lives=20;
 
-		}
-	}
-	if (Input.GetKeyDown (KeyCode.D))
-	{
-		PlayerPrefs.DeleteAll();
-	}
 	if (Input.GetKeyDown(KeyCode.Escape)) //sulgeme mängu
 	{
-		SaveData();
+		ChangeData(0);
     	Application.Quit(); 
     }
 }
-function SaveData()
+
+function ChangeData(option:int)
 {
-	PlayerPrefs.SetInt("leavedate",(System.DateTime.UtcNow - new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc)).TotalSeconds);
-	PlayerPrefs.SetInt("lives",lives);
-	PlayerPrefs.SetInt("newliveclock",newliveclock);
-	PlayerPrefs.SetInt("maxscore",maxscore);
-	
+	if (option==0)//savedata
+	{
+
+		PlayerPrefs.SetInt("leavedate",(System.DateTime.UtcNow - new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc)).TotalSeconds);
+		PlayerPrefs.SetInt("lives",lives);
+		PlayerPrefs.SetInt("unlimitedlives",unlimitedlives?1:0);
+		PlayerPrefs.SetInt("newliveclock",newliveclock);
+		PlayerPrefs.SetInt("maxscore",maxscore);
+	}else if (option==1)//deletedata
+	{
+		PlayerPrefs.DeleteAll();
+		ChangeData(0);
+	}else if (option==2)//muuda framerate DEBUG
+	{
+		Application.targetFrameRate = parseInt(GameObject.Find('maxfpsget').GetComponent(UI.Text).text);
+	}else if (option==3)//muuda framerate DEBUG
+	{
+		unlimitedlives=unlimitedlives ? false : true;
+		if (unlimitedlives==false)
+		{
+			lives=30;
+		}
+	}
 	
 }
 
