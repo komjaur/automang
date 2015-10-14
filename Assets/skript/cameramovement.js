@@ -11,9 +11,7 @@ private var startTime:float;
 function Awake () {
 	startingpoint=transform.position;
 }
-function Start () {
 
-}
 function goback()
 {
 	//direction=AngleDir(transform.forward, startingpoint-transform.position, transform.up);
