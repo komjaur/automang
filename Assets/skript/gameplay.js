@@ -16,7 +16,7 @@ var newliveclock:int=300;
 
 
 
-
+var anim:Animator[];
 var cars:GameObject[];
 var spawnpoints:Transform[];
 var trafficspeed:float=40;
@@ -179,13 +179,16 @@ function interfacefunctions(whereto:int)
 	}else if (whereto==2)
 	{
 		
+	}else if (whereto==3)
+	{
+	    
 	}
 	
 }
 
 function ticktock()//lisab aega ja kiirendab mängu protsessi
 {
-	Debug.Log(unlimitedlives);
+	//Debug.Log(unlimitedlives);
 	if (gameover==false)
 	{
 		insideclock++;

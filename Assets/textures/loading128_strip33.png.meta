@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5f336b7464ad6f14b832b4c2a986595c
-timeCreated: 1444828838
+timeCreated: 1444902306
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -61,7 +61,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: 0
+    filterMode: 1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -79,7 +79,12 @@ TextureImporter:
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Standalone
+    maxTextureSize: 8192
+    textureFormat: -1
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
   spriteSheet:
     sprites:
     - name: loading128_strip33_0

@@ -132,7 +132,7 @@ function OnCollisionEnter(other: Collision) {
 		gameObject.active=false;
 	}*/
 }
-function OnTriggerEnter (other : Collider) {
+function OnTriggerExit (other : Collider) {
     if (other.gameObject.tag=="addpointcollider" && gotpoint==false)
     {
         //Debug.Log("1+");
