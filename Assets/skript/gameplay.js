@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 
-
+static var money:int=0;
 static var gameover=false;
 static var carslist:Transform[];
 static var carsonfield=0;
@@ -196,6 +196,7 @@ function ticktock()//lisab aega ja kiirendab mängu protsessi
 		maxcarsonfield=5+(insideclock/6);
 		//Debug.Log(trafficspeed);
 	}
+	
 	if (unlimitedlives==false)
 	{
 		if (lives<maxlives)
@@ -292,7 +293,7 @@ function endgame()
 		maxscore=score;
 	}
 	ChangeData(0);
-	yield WaitForSeconds(2);
+	yield WaitForSeconds(5);
 	if (gameover==true)
 	{
 		interfacefunctions(3);
@@ -332,6 +333,7 @@ function manualspawning()
 }
 function Update () {
 	texts[0].text=score+"";
+	texts[4].text="$ "+money;
 	//+"/"+maxscore
 	//Debug.Log(carsonfield);
 	if (carsonfield<maxcarsonfield && massspawning==true)

@@ -1,5 +1,5 @@
 ﻿#pragma strict
-
+var coin:GameObject;
 var skinnidekogus=0;
 var parsystem:ParticleSystem[];
 var particlemeshes:Mesh[];
@@ -117,15 +117,28 @@ function FixedUpdate () {
 function OnCollisionEnter(other: Collision) {
 	if (other.gameObject.tag=="car")
 	{
+		if (dead==false)
+		{
+			var contact : ContactPoint = other.contacts[0];
+			var coinatt = Instantiate(coin.transform,contact.point,Quaternion.Euler(0, 0, 0));
+			coinatt.GetComponent.<Rigidbody>().AddForce(Vector3(0,1,0) * 500);
+			coinatt.GetComponent.<Rigidbody>().AddTorque(Vector3(0,1,1)*20);
+			gameplay.money++;
+		}
 		dead=true;
 		GetComponent.<Rigidbody>().freezeRotation = false;
+		
+		
 		if (controllsystem.gameover==false)
 		{
+			
 			controllsystem.endgame();
 		}
 
 		
 	}
+	
+        
 	/*if (other.gameObject.name=="endcollider")
 	{
 		controll.carsonfield--;
@@ -140,7 +153,13 @@ function OnTriggerExit (other : Collider) {
         if (gameplay.gameover==false)
         {
         	//parsystem[1].renderMode.mesh = particlemeshes[1];
-            gameplay.score++;
+        	if (speed>=100)
+        	{
+        		gameplay.score++;
+        	}else
+        	{
+        		gameplay.score+=2;
+        	}
            // parsystem[1].ParticleSystemRenderMode.mesh[1];
             parsystem[1].Emit(1);
            
