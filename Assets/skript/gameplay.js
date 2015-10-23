@@ -18,6 +18,7 @@ var newliveclock:int=300;
 
 var anim:Animator[];
 var cars:GameObject[];
+var guis:GameObject[];
 var spawnpoints:Transform[];
 var trafficspeed:float=40;
 
@@ -91,8 +92,20 @@ function Awake () {// laeme asjad sisse
 	}
 	if (welcomebackmessage!=null)
 	{
-		texts[1].text=welcomebackmessage;
-		interfacefunctions(2);//näita welcomebackmessaged
+	    texts[1].text=welcomebackmessage;
+
+	    var shop:GameObject=GameObject.Find("shoplist");
+	    for (var x=0;x<10;x++)
+	    {
+            
+	        var object = Instantiate(guis[0],new Vector2(shop.transform.position.x,shop.transform.position.y + x*70), Quaternion.Euler(Vector3.zero));
+	        object.transform.SetParent(shop.transform);
+	        //object.transform.parent = shop.transform;
+	    }
+	    
+
+
+		interfacefunctions(3);//näita welcomebackmessaged
 	}else
 	{
 		interfacefunctions(0);//otse startmenüüse
@@ -330,6 +343,22 @@ function manualspawning()
 		yield WaitForSeconds(0.5);
 	}
 	massspawning=true;
+}
+function activatebuy(id:int)
+{
+    if (id==0)
+    {
+        Debug.Log("effect0");
+    }else if (id==1)
+    {
+        Debug.Log("effect1");
+    }if (id==2)
+    {
+        Debug.Log("effect2");
+    }if (id==3)
+    {
+        Debug.Log("effect3");
+    }
 }
 function Update () {
 	texts[0].text=score+"";
