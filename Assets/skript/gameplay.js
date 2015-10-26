@@ -94,7 +94,7 @@ function Awake () {// laeme asjad sisse
 	{
 	    texts[1].text=welcomebackmessage;
 
-	    var shop:GameObject=GameObject.Find("shoplist");
+	   /* var shop:GameObject=GameObject.Find("shoplist");
 	    for (var x=0;x<10;x++)
 	    {
             
@@ -102,10 +102,10 @@ function Awake () {// laeme asjad sisse
 	        object.transform.SetParent(shop.transform);
 	        //object.transform.parent = shop.transform;
 	    }
-	    
+	    */
 
 
-		interfacefunctions(3);//näita welcomebackmessaged
+		interfacefunctions(1);//näita welcomebackmessaged
 	}else
 	{
 		interfacefunctions(0);//otse startmenüüse
@@ -205,7 +205,7 @@ function ticktock()//lisab aega ja kiirendab mängu protsessi
 	if (gameover==false)
 	{
 		insideclock++;
-		trafficspeed=20+(insideclock/2);
+		trafficspeed=15+(insideclock/2);
 		maxcarsonfield=5+(insideclock/6);
 		//Debug.Log(trafficspeed);
 	}
@@ -240,7 +240,7 @@ function LaneSpeedChange()
 	//Debug.Log(gameover);
 	for (var i = 0; i < spawnpoints.Length; i++) 
 	{
-		var randomspeed=Random.Range(trafficspeed-10,trafficspeed+20);
+		var randomspeed=Random.Range(trafficspeed-5,trafficspeed+10);
     	spawnpoints[i].name="lane"+i+":"+randomspeed;
 	}
 }
@@ -269,23 +269,27 @@ function releasecar()// kasutame autosid uuesti mitte ei tee uusi koguaeg
 		//Debug.Log(inactivecars+"/"+activespawns);
 		for (var i = Random.Range(0,carslist.Length); i < carslist.Length; i++) 
 		{
+			
 		    if (carslist[i].gameObject.activeInHierarchy==false && carsonfield<maxcarsonfield) 
 			{
-
-				carslist[i].gameObject.SetActive(true);
-				carsonfield++;
-				//.Log(carsonfield+"SHOOT");
-				carslist[i].transform.position=chosenspawn.transform.position;
-				var cardata=chosenspawn.name.Split(':'[0]);
-
-				carslist[i].transform.GetComponent(carai).newstart(parseFloat(cardata[1]),cardata[0]);
-				carslist[i].transform.rotation=chosenspawn.transform.rotation;
-				chosenspawn.SetActive (false);
-				
-				yield WaitForSeconds(1);
-				chosenspawn.SetActive (true);
-				// spawnready=true;
-				break;
+				var carscript=carslist[i].gameObject.GetComponent(carai);
+				if (carscript.level<=trafficspeed)
+				{
+					carslist[i].gameObject.SetActive(true);
+					carsonfield++;
+					//.Log(carsonfield+"SHOOT");
+					carslist[i].transform.position=chosenspawn.transform.position;
+					var cardata=chosenspawn.name.Split(':'[0]);
+	
+					carslist[i].transform.GetComponent(carai).newstart(parseFloat(cardata[1]),cardata[0]);
+					carslist[i].transform.rotation=chosenspawn.transform.rotation;
+					chosenspawn.SetActive (false);
+					
+					yield WaitForSeconds(1);
+					chosenspawn.SetActive (true);
+					// spawnready=true;
+					break;
+				}
 			}
 		}
 	}

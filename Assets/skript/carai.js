@@ -1,8 +1,13 @@
 ﻿#pragma strict
+var kaal:int=0;
+var level:int=0;
+
 var coin:GameObject;
 var skinnidekogus=0;
+
 var parsystem:ParticleSystem[];
 var particlemeshes:Mesh[];
+
 private var gotpoint=false;
 private var speed=10;
 private var dead:boolean=false;
@@ -33,8 +38,9 @@ function newstart (carspeed:float,carlane:String) {
 	transform.rotation = Quaternion.Euler(new Vector3(0f,0f,0f));
 	GetComponent.<Rigidbody>().velocity = new Vector3(0f,0f,0f); 
     GetComponent.<Rigidbody>().angularVelocity = new Vector3(0f,0f,0f);
-    GetComponent.<Rigidbody>().mass = speed;
+    GetComponent.<Rigidbody>().mass = kaal+speed;
 	//kere.GetComponent.<Renderer>().material = skins[Random.Range(0,skins.length)];
+	
 	var randomskin:float=(1f/skinnidekogus)*Random.Range(0,skinnidekogus);
 	kere.GetComponent.<Renderer>().material.SetTextureOffset("_MainTex", Vector2(randomskin,0));
 	
@@ -117,8 +123,27 @@ function FixedUpdate () {
 function OnCollisionEnter(other: Collision) {
 	if (other.gameObject.tag=="car")
 	{
+		
 		if (dead==false)
 		{
+			/*var parts=transform.Find("parts");
+			if(parts!=null)
+			{
+				GetComponent.<Collider>().enabled=false;
+
+				GetComponent.<Rigidbody>().isKinematic=true;
+				while(parts.transform.childCount!=0)
+				{
+					for (var child : Transform in parts.transform) 
+					{
+					   
+					    child.GetComponent.<Collider>().enabled=true;
+					    child.GetComponent.<Rigidbody>().useGravity=true;
+					    child.GetComponent.<Rigidbody>().isKinematic=false;
+					    child.parent=null;
+					}
+				}
+			}*/
 			var contact : ContactPoint = other.contacts[0];
 			var coinatt = Instantiate(coin.transform,contact.point,Quaternion.Euler(0, 0, 0));
 			coinatt.GetComponent.<Rigidbody>().AddForce(Vector3(0,1,0) * 500);
