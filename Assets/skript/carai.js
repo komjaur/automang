@@ -78,7 +78,7 @@ function Update()
 	if (dead==false)
 	{
 		var hit : RaycastHit;
-		if (Physics.Raycast (transform.position,transform.forward , hit,2))
+		if (Physics.Raycast (transform.position,transform.forward , hit,4))
 		{
 			if (hit.transform.name==transform.name)
 			{
