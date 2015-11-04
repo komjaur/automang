@@ -1,4 +1,4 @@
-﻿#pragma strict
+#pragma strict
 
 
 static var money:int=0;
@@ -449,4 +449,3 @@ function ChangeData(option:int)
 	}
 	
 }
-
