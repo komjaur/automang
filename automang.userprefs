@@ -2,11 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\skript\gameplay2.js">
     <Files>
-      <File FileName="Assets\skript\gameplay2.js" Line="141" Column="19" />
-      <File FileName="Assets\skript\gameplay.js" Line="328" Column="26" />
+      <File FileName="Assets\skript\gameplay2.js" Line="127" Column="45" />
+      <File FileName="Assets\skript\gameplay.js" Line="256" Column="24" />
       <File FileName="Assets\skript\humanai.js" Line="1" Column="1" />
-      <File FileName="Assets\skript\CustomClass.js" Line="31" Column="1" />
-      <File FileName="Assets\skript\ShopSelected.js" Line="13" Column="1" />
+      <File FileName="Assets\skript\CustomClass.js" Line="1" Column="1" />
+      <File FileName="Assets\skript\ShopSelected.js" Line="4" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

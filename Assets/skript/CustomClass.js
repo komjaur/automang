@@ -19,6 +19,7 @@ public class CustomClass extends MonoBehaviour
         public var powerName : String;
         public var powerDuration:float;
         public var powerPrice : int;
+        public var powerCurrentlevel : int=0;
         public var powerMaxlevel : int;
         public var powerIcon : Sprite;
         public var powerInfo : String;

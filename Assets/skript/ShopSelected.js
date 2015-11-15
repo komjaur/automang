@@ -15,7 +15,7 @@ function Update () {
 
 function SelectMap(mapID:int)
 {
-	MapsWithData
+//	MapsWithData
 	Debug.Log(mapID);
 	
 	
