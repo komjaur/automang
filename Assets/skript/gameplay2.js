@@ -10,11 +10,11 @@ var selectedPowers:int[];
 var selectedMap:int;
 
 
+
 public var MapsWithData : CustomClass.mapData[];
 public var PowersWithData : CustomClass.powerData[];
 var uiObject:GameObject[];
-var CarSpawn:Transform[];
-var WalkerSpawn:Transform[];
+
 
 private var firstTimeMap:boolean=true;
 private var firstTimePower:boolean=true;
@@ -34,50 +34,32 @@ function Update () {
 }
 function SpawnMap()
 {
-	
-    var currentscene=GameObject.Find("Game Scene").transform;
-    //Debug.Log(currentscene.childCount);
-    for (var i = currentscene.transform.childCount - 1; i >= 0; i--)
+    var currentScene: GameObject = GameObject.Find("Scene");
+    if (currentScene==null)
     {
-        Destroy(currentscene.transform.GetChild(i).gameObject);
+        Destroy(currentScene.transform);
+    }else
+    {
+        currentScene = new GameObject("Scene");
+        currentScene.AddComponent.<"game">();
+        var sceneBrain = currentScene.GetComponent(game);
+        sceneBrain.MapiTrans = MapsWithData[selectedMap].mapTransform.transform;
     }
-    var currentmap = Instantiate(MapsWithData[selectedMap].mapTransform.transform,Vector3(0,0,0), Quaternion.Euler(Vector3(-90, 0, 0)));
-    currentmap.transform.parent = currentscene;
+
+    //var currentscene=GameObject.Find("Game Scene").transform;
+    
+
+    //Debug.Log(currentscene.childCount);
+    
+    /*var currentmap = Instantiate(MapsWithData[selectedMap].mapTransform.transform,Vector3(0,0,0), Quaternion.Euler(Vector3(-90, 0, 0)));
+    currentmap.transform.parent = currentscene;*/
 	
     interfacefunctions(1);
-    CarSpawn = new CountAndFill("spawnpoint","carspawn");
-    WalkerSpawn = new CountAndFill("spawnpoint","walkerspawn");
+ 
 
-    
 }
 
-function CountAndFill(tagName : String ,objectName : String)
-{
-    var objects = GameObject.FindGameObjectsWithTag(tagName);
-    var array :Transform[];
-    for (var x=0;x<3;x++)
-    {
-        var counter = 0;
-        for(var object in objects)
-        {
-            if (object.name == objectName)
-            {
 
-                if (x == 1)
-                {
-                    array[counter] = object.gameObject.transform;
-                }
-                counter++;
-            }
-    
-        }
-        if (x == 0)
-        {
-            array = new Transform[counter];
-        }
-    }
-    return array;
-}
 
 
 function interfacefunctions(whereto:int)

@@ -11,7 +11,7 @@ public class CustomClass extends MonoBehaviour
 		public var mapInfo : String;
         public var mapIcon : Sprite;
         public var isLocked : boolean;
-  	
+        public var MapCars:car[];
   
     }
 	 public class powerData
@@ -26,10 +26,15 @@ public class CustomClass extends MonoBehaviour
         public var isUpgradeble : boolean;
         public var isSelectible: boolean;
         public var isLocked : boolean;
-        
+              
   
     }
-
+    public class car
+    {
+        public var CarName:String;
+        public var CarLevel:int;
+        public var CarModel:GameObject;
+    }
     
     function Start ()
     {
